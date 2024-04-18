@@ -1,0 +1,20 @@
+﻿@page "/"
+@using MotChecking.Models
+
+<PageTitle>Home</PageTitle>
+
+<h3>Check your MOT status here</h3>
+
+<VehicleInfoForm OnVehicleInfoRetrieved="RetrieveData" />
+@if(vehicleInfo != null){
+    <VehicleInfoDisplay VehicleInfo="vehicleInfo" ></VehicleInfoDisplay>
+}
+
+@code {
+    private VehicleInfo? vehicleInfo;
+
+    private void RetrieveData(VehicleInfo vehicleInfo)
+    {
+        this.vehicleInfo = vehicleInfo;
+    }
+}
