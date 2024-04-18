@@ -1,0 +1,51 @@
+﻿@using MotChecking.Models
+@using MotChecking.Services
+
+<h5>Enter Registration Number</h5>
+
+<div>
+    <input type="text" class="form-control" @bind="registrationNumber" />
+    <button class="btn btn-primary my-2" @onclick="GetVehicleInfo">Get Info</button>
+</div>
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+
+@code {
+    private string? registrationNumber;
+    private string? errorMessage;
+
+    [Parameter]
+    public EventCallback<VehicleInfo> OnVehicleInfoRetrieved { get; set; }
+
+    [Inject]
+    private MotApiService? MotApiService { get; set; }
+
+    private async Task GetVehicleInfo()
+    {
+        try
+        {
+            if(string.IsNullOrEmpty(registrationNumber) || string.IsNullOrWhiteSpace(registrationNumber) || MotApiService == null)
+            {
+                errorMessage = "Something is wrong with the details provided, please verify and try it again";
+                return;
+            }
+            else
+            {
+                registrationNumber = registrationNumber?.Replace(" ", "");
+                VehicleInfo vehicleInfo = await MotApiService.GetVehicleInfoAsync(registrationNumber);
+                await OnVehicleInfoRetrieved.InvokeAsync(vehicleInfo);
+                errorMessage = null;
+            }
+        }
+        catch (Exception)
+        {
+            await OnVehicleInfoRetrieved.InvokeAsync(null);
+            errorMessage = "Something is wrong with the details provided, please verify and try it again";
+        }
+    }
+}
