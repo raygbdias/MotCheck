@@ -1,0 +1,20 @@
+﻿@using MotChecking.Models
+
+<div>
+    <h4>Vehicle Information</h4>
+    <p><strong>Make:</strong> @VehicleInfo?.Make</p>
+    <p><strong>Model:</strong> @VehicleInfo?.Model</p>
+    <p><strong>Colour:</strong> @VehicleInfo?.Colour</p>
+    <p><strong>Mileage at Last MOT:</strong> @VehicleInfo?.MotInfos?.FirstOrDefault()?.Mileage</p>
+    <p><strong>MOT Expiry Date:</strong> @VehicleInfo?.MotInfos?.FirstOrDefault()?.MotExpiryDate</p>
+    @if (VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry != null)
+    {
+        int? daysUntilExpiry = VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry;
+        <p><strong>Mot will expire in:</strong> @daysUntilExpiry @((daysUntilExpiry == 1) ? "Day" : "Days")</p>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public VehicleInfo? VehicleInfo { get; set; }
+}
