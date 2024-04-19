@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MotChecking.Models;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace MotChecking.Services
 {
@@ -55,14 +54,6 @@ namespace MotChecking.Services
             HttpResponseMessage response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             return response;
-        }
-
-        public void StringSanitize(string registrationNumber)
-        {
-            string pattern = @"^\S+$";
-
-            bool containsNoSpacecs = Regex.IsMatch(registrationNumber, pattern);
-            var fds = "dfdfs";
         }
     }
 }
