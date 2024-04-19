@@ -7,10 +7,14 @@
     <p><strong>Colour:</strong> @VehicleInfo?.Colour</p>
     <p><strong>Mileage at Last MOT:</strong> @VehicleInfo?.MotInfos?.FirstOrDefault()?.Mileage</p>
     <p><strong>MOT Expiry Date:</strong> @VehicleInfo?.MotInfos?.FirstOrDefault()?.MotExpiryDate</p>
-    @if (VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry != null)
+    @if (VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry != null && VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry >= 0)
     {
         int? daysUntilExpiry = VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry;
         <p><strong>Mot will expire in:</strong> @daysUntilExpiry @((daysUntilExpiry == 1) ? "Day" : "Days")</p>
+    }
+    else if ( VehicleInfo?.MotInfos?.FirstOrDefault()?.DaysUntilExpiry <= 0)
+    {
+        <p><strong>Mot is expired</strong></p>
     }
 </div>
 
